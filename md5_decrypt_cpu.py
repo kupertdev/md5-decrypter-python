@@ -9,7 +9,7 @@ from typing import Optional
 import string
 from tqdm import tqdm
 
-META_TAGS = {
+TAGS = {
     "<space>": " ",
     "<digits>": string.digits,
     "<symbols>": string.punctuation,
@@ -24,9 +24,9 @@ def md5_hash(word: str, times: int) -> str:
         hash_result = hashlib.md5(hash_result.encode('utf-8')).hexdigest()
     return hash_result
 
-def replace_meta_tags(text: str) -> str:
-    """Replaces meta tags in the given text with their corresponding values in META_TAGS."""
-    for tag, replacement in META_TAGS.items():
+def replace_tags(text: str) -> str:
+    """Replaces meta tags in the given text with their corresponding values in TAGS."""
+    for tag, replacement in TAGS.items():
         text = text.replace(tag, replacement)
     return text
 
@@ -133,13 +133,13 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     pattern = f"[{re.escape(string.punctuation + string.digits)}]"
-    if re.search(pattern, args.alphabet) and not any(tag in args.alphabet for tag in META_TAGS):
+    if re.search(pattern, args.alphabet) and not any(tag in args.alphabet for tag in TAGS):
         print(f"Note: You can use tags to specify character ranges: <digits>, <symbols>, <space>, <englishlower>, <englishupper>.\nFor example: python md5_decrypt_gpu.py {args.range} {args.hash} <digits><symbols>")
 
-    args.alphabet = replace_meta_tags(args.alphabet)
+    args.alphabet = replace_tags(args.alphabet)
 
     if args.start_char:
-        args.start_char = replace_meta_tags(args.start_char)
+        args.start_char = replace_tags(args.start_char)
 
     try:
         min_length, max_length = map(int, args.range.split('-'))
