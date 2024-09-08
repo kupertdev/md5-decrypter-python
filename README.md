@@ -1,4 +1,5 @@
-# MD5 Decryptor with GPU Acceleration
+# MD5 Decryptor with CPU Acceleration
+GPU Coming Later
 
 ## Overview
 
